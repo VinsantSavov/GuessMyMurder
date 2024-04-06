@@ -1,0 +1,6 @@
+@Games.Startup_HostAddress = http://localhost:5032
+
+GET {{Games.Startup_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

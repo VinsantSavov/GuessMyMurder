@@ -1,0 +1,6 @@
+@Stories.Startup_HostAddress = http://localhost:5136
+
+GET {{Stories.Startup_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
