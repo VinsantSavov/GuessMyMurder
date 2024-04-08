@@ -1,13 +1,15 @@
 ﻿using Common.Domain.Constants;
+using Common.Domain.Interfaces;
 using Common.Domain.Models;
 using Common.Domain.Models.Entities;
+
 using Stories.Domain.Constants;
 using Stories.Domain.Exceptions;
 using Stories.Domain.Models.Characters;
 
 namespace Stories.Domain.Models.Stories
 {
-    public class Story : BaseModel<Guid>
+    public class Story : BaseModel<Guid>, IAggregateRoot
     {
         private readonly HashSet<Character> _characters;
 
