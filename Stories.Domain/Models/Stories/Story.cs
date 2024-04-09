@@ -80,6 +80,13 @@ namespace Stories.Domain.Models.Stories
             return this;
         }
 
+        public Story RemoveCharacter(int characterId)
+        {
+            this._characters.RemoveWhere(c => c.Id == characterId);
+
+            return this;
+        }
+
         #region Validation
 
         private void ValidateCreatorId(Guid creatorId)

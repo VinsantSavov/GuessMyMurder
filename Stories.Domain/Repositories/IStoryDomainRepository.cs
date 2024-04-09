@@ -11,5 +11,7 @@ namespace Stories.Domain.Repositories
         Task<Story> GetAsync(Guid storyId);
 
         Task<bool> DeleteAsync(Guid storyId);
+
+        Task<bool> DeleteCharacterAsync(Guid storyId, int characterId);
     }
 }

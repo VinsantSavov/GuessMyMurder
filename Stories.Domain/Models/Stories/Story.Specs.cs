@@ -166,6 +166,21 @@ namespace Stories.Domain.Models.Stories
         }
 
         [Theory]
+        [MemberData(nameof(StoryMockData.ValidParamsWithCharacter), MemberType = typeof(StoryMockData))]
+        public void RemoveCharacterById_ShouldRemoveAndReturnStory(
+            Guid creatorId,
+            string title,
+            string plot,
+            Character character)
+        {
+            var story = new Story(creatorId, title, plot).AddCharacter(character)
+                                                         .RemoveCharacter(character.Id);
+
+            Assert.NotNull(story);
+            Assert.Empty(story.Characters);
+        }
+
+        [Theory]
         [MemberData(nameof(StoryMockData.ValidParamsWithCharacters), MemberType = typeof(StoryMockData))]
         public void RemoveCharacter_WithNonExistingCharacter_ShouldReturnStory(
             Guid creatorId,

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Stories.Domain\Stories.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Stories\Commands\EditCharacter\" />
+  </ItemGroup>
+
 </Project>
