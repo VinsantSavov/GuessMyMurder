@@ -6,6 +6,8 @@ namespace Stories.Application.Stories
 {
     public interface IStoryQueryRepository : IQueryRepository<Story>
     {
+        Task<TModel> GetStoryAsync<TModel>(Guid storyId);
+
         Task<IEnumerable<TModel>> GetAllStoriesAsync<TModel>();
 
         Task<IEnumerable<TModel>> GetUserStoriesAsync<TModel>(Guid userId);

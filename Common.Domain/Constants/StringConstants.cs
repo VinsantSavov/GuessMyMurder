@@ -6,7 +6,7 @@
 
         public const int MaxNameLength = 50;
 
-        public const int MinStoryLength = 100;
+        public const int MinStoryLength = 128;
 
         public const int MaxStoryLength = 512;
     }
