@@ -2,7 +2,7 @@
 {
     public class CreateStoryResponseModel
     {
-        public CreateStoryResponseModel(Guid id)
+        internal CreateStoryResponseModel(Guid id)
         {
             Id = id;
         }

@@ -131,6 +131,27 @@ namespace Stories.Domain.Models.Stories
 
         [Theory]
         [MemberData(nameof(StoryMockData.ValidParamsWithCharacter), MemberType = typeof(StoryMockData))]
+        public void AddCharacterByProperties_ShouldAddAndReturnStory(
+            Guid creatorId,
+            string title,
+            string plot,
+            Character character)
+        {
+            var story = new Story(creatorId, title, plot).AddCharacter(
+                                                           character.FirstName, 
+                                                           character.LastName, 
+                                                           character.Spotlight);
+
+            Assert.NotNull(story);
+            Assert.NotEmpty(story.Characters);
+            Assert.Single(story.Characters);
+            Assert.Equal(character.FirstName, story.Characters.First().FirstName);
+            Assert.Equal(character.LastName, story.Characters.First().LastName);
+            Assert.Equal(character.Spotlight, story.Characters.First().Spotlight);
+        }
+
+        [Theory]
+        [MemberData(nameof(StoryMockData.ValidParamsWithCharacter), MemberType = typeof(StoryMockData))]
         public void RemoveCharacter_ShouldRemoveAndReturnStory(
             Guid creatorId,
             string title,
