@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using Common.Domain.Constants;
 using Common.Application.Mapping;
 
 using Stories.Domain.Models.Stories;
@@ -14,7 +15,7 @@ namespace Stories.Application.Stories.Queries.Common
 
         public string Plot { get; private set; }
 
-        public string PlotSummary => this.Plot.Substring(0, 128) + "...";
+        public string PlotSummary => this.Plot.Substring(0, StringConstants.MinStoryLength) + "...";
 
         public string CreatedOn { get; private set; }
 
