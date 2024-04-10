@@ -63,12 +63,28 @@ namespace Stories.Domain.Models.Stories
             return this;
         }
 
-        public Story AddCharacter(string firstName, string lastName, string spotlight)
+        public Story AddCharacter(
+            string firstName, 
+            string lastName, 
+            string spotlight)
         {
             this.ValidateCharactersCount(this._characters);
 
             var character = new Character(firstName, lastName, spotlight);
             this._characters.Add(character);
+
+            return this;
+        }
+
+        public Story UpdateCharacter(
+            Character character, 
+            string firstName, 
+            string lastName, 
+            string spotlight)
+        {
+            character.UpdateFirstName(firstName)
+                     .UpdateLastName(lastName)
+                     .UpdateSpotlight(spotlight);
 
             return this;
         }
