@@ -1,4 +1,6 @@
-﻿using Common.Application;
+﻿using MediatR;
+
+using Common.Application;
 using Common.Application.Exceptions;
 
 using Stories.Domain.Repositories;
@@ -6,11 +8,11 @@ using Stories.Domain.Models.Stories;
 
 namespace Stories.Application.Stories.Commands.DeleteCharacter
 {
-    public class DeleteCharacterCommand : EntityCommand<Guid>
+    public class DeleteCharacterCommand : EntityCommand<Guid>, IRequest
     {
         public int CharacterId { get; }
 
-        public class DeleteCharacterCommandHandler
+        public class DeleteCharacterCommandHandler : IRequestHandler<DeleteCharacterCommand>
         {
             private readonly IStoryDomainRepository _storyRepository;
 
@@ -19,7 +21,9 @@ namespace Stories.Application.Stories.Commands.DeleteCharacter
                 this._storyRepository = storyRepository;
             }
 
-            public async Task Handle(DeleteCharacterCommand request)
+            public async Task Handle(
+                DeleteCharacterCommand request,
+                CancellationToken cancellationToken)
             {
                 var story = await this._storyRepository.GetAsync(request.Id);
 
@@ -29,6 +33,8 @@ namespace Stories.Application.Stories.Commands.DeleteCharacter
                 }
 
                 story.RemoveCharacter(request.CharacterId);
+
+                await this._storyRepository.SaveChangesAsync(cancellationToken);
             }
         }
     }

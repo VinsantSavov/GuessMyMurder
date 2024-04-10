@@ -1,4 +1,6 @@
-﻿using Common.Application;
+﻿using MediatR;
+
+using Common.Application;
 using Common.Application.Exceptions;
 
 using Stories.Domain.Repositories;
@@ -6,13 +8,13 @@ using Stories.Domain.Models.Stories;
 
 namespace Stories.Application.Stories.Commands.Edit
 {
-    public class EditStoryCommand : EntityCommand<Guid>
+    public class EditStoryCommand : EntityCommand<Guid>, IRequest<EditStoryResponseModel>
     {
         public string Title { get; }
 
         public string Plot {  get; }
 
-        public class EditStoryCommandHandler
+        public class EditStoryCommandHandler : IRequestHandler<EditStoryCommand, EditStoryResponseModel>
         {
             private readonly IStoryDomainRepository _storyRepository;
 
@@ -21,9 +23,11 @@ namespace Stories.Application.Stories.Commands.Edit
                 this._storyRepository = storyRepository;
             }
 
-            public async Task<EditStoryResponseModel> Handle(EditStoryCommand request)
+            public async Task<EditStoryResponseModel> Handle(
+                EditStoryCommand request,
+                CancellationToken cancellationToken)
             {
-                var story = await this._storyRepository.GetAsync(request.Id);
+                var story = await this._storyRepository.GetAsync(request.Id, cancellationToken);
 
                 if (story == null)
                 {
@@ -33,7 +37,7 @@ namespace Stories.Application.Stories.Commands.Edit
                 story.UpdateTitle(request.Title)
                      .UpdatePlot(request.Plot);
 
-                await this._storyRepository.SaveChangesAsync();
+                await this._storyRepository.SaveChangesAsync(cancellationToken);
 
                 return new EditStoryResponseModel(story.Id);
             }

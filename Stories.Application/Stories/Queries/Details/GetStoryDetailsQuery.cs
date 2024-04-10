@@ -1,12 +1,14 @@
-﻿using Stories.Application.Stories.Queries.Common;
+﻿using MediatR;
+
+using Stories.Application.Stories.Queries.Common;
 
 namespace Stories.Application.Stories.Queries.Details
 {
-    public class GetStoryDetailsQuery
+    public class GetStoryDetailsQuery : IRequest<StoryResponseModel>
     {
         public Guid StoryId { get; set; }
 
-        public class GetStoryDetailsQueryHandler
+        public class GetStoryDetailsQueryHandler : IRequestHandler<GetStoryDetailsQuery, StoryResponseModel>
         {
             private IStoryQueryRepository _storyQueryRepository;
 
@@ -15,7 +17,9 @@ namespace Stories.Application.Stories.Queries.Details
                 this._storyQueryRepository = storyQueryRepository;
             }
 
-            public async Task<StoryResponseModel> Handle(GetStoryDetailsQuery request)
+            public async Task<StoryResponseModel> Handle(
+                GetStoryDetailsQuery request, 
+                CancellationToken cancellationToken)
                 => await this._storyQueryRepository.GetStoryAsync<StoryResponseModel>(request.StoryId);
         }
     }

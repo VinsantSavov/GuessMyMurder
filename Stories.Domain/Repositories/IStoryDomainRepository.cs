@@ -6,12 +6,12 @@ namespace Stories.Domain.Repositories
 {
     public interface IStoryDomainRepository : IDomainRepository<Story>
     {
-        Task<bool> AddAsync(Story story);
+        Task<bool> AddAsync(Story story, CancellationToken cancellationToken = default);
 
-        Task<Story> GetAsync(Guid storyId);
+        Task<Story> GetAsync(Guid storyId, CancellationToken cancellationToken = default);
 
-        Task<bool> DeleteAsync(Guid storyId);
+        Task<bool> DeleteAsync(Guid storyId, CancellationToken cancellationToken = default);
 
-        Task<bool> DeleteCharacterAsync(Guid storyId, int characterId);
+        Task<bool> DeleteCharacterAsync(Guid storyId, int characterId, CancellationToken cancellationToken = default);
     }
 }

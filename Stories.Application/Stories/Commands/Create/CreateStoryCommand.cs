@@ -1,11 +1,13 @@
-﻿using Common.Application;
+﻿using MediatR;
+
+using Common.Application;
 
 using Stories.Domain.Factories;
 using Stories.Domain.Repositories;
 
 namespace Stories.Application.Stories.Commands.Create
 {
-    public class CreateStoryCommand : EntityCommand<Guid>
+    public class CreateStoryCommand : EntityCommand<Guid>, IRequest<CreateStoryResponseModel>
     {
         public Guid CreatorId { get; set; }
 
@@ -13,7 +15,7 @@ namespace Stories.Application.Stories.Commands.Create
 
         public string Plot { get; set; }
 
-        public class CreateStoryCommandHandler
+        public class CreateStoryCommandHandler : IRequestHandler<CreateStoryCommand, CreateStoryResponseModel>
         {
             private readonly IStoryFactory _storyFactory;
             private readonly IStoryDomainRepository _storyRepository;
@@ -26,7 +28,9 @@ namespace Stories.Application.Stories.Commands.Create
                 this._storyRepository = storyRepository;
             }
 
-            public async Task<CreateStoryResponseModel> Handle(CreateStoryCommand request)
+            public async Task<CreateStoryResponseModel> Handle(
+                CreateStoryCommand request,
+                CancellationToken cancellationToken)
             {
                 this._storyFactory.WithCreatorId(request.CreatorId)
                                   .WithTitle(request.Title)
@@ -34,7 +38,7 @@ namespace Stories.Application.Stories.Commands.Create
 
                 var story = this._storyFactory.Build();
 
-                await this._storyRepository.SaveAsync(story);
+                await this._storyRepository.SaveAsync(story, cancellationToken);
 
                 return new CreateStoryResponseModel(story.Id);
             }

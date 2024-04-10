@@ -1,12 +1,14 @@
-﻿using Common.Application;
+﻿using MediatR;
+
+using Common.Application;
 
 using Stories.Domain.Repositories;
 
 namespace Stories.Application.Stories.Commands.Delete
 {
-    public class DeleteStoryCommand : EntityCommand<Guid>
+    public class DeleteStoryCommand : EntityCommand<Guid>, IRequest
     {
-        public class DeleteStoryCommandHandler
+        public class DeleteStoryCommandHandler : IRequestHandler<DeleteStoryCommand>
         {
             private readonly IStoryDomainRepository _storyRepository;
 
@@ -15,8 +17,10 @@ namespace Stories.Application.Stories.Commands.Delete
                 this._storyRepository = storyRepository;
             }
 
-            public async Task Handle(DeleteStoryCommand request)
-                => await this._storyRepository.DeleteAsync(request.Id);
+            public async Task Handle(
+                DeleteStoryCommand request,
+                CancellationToken cancellationToken)
+                => await this._storyRepository.DeleteAsync(request.Id, cancellationToken);
         }
     }
 }

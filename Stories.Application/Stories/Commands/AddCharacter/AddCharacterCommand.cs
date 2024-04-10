@@ -1,4 +1,6 @@
-﻿using Common.Application;
+﻿using MediatR;
+
+using Common.Application;
 using Common.Application.Exceptions;
 
 using Stories.Domain.Repositories;
@@ -6,7 +8,7 @@ using Stories.Domain.Models.Stories;
 
 namespace Stories.Application.Stories.Commands.AddCharacter
 {
-    public class AddCharacterCommand : EntityCommand<Guid>
+    public class AddCharacterCommand : EntityCommand<Guid>, IRequest<AddCharacterResponseModel>
     {
         public string FirstName {  get; }
 
@@ -14,7 +16,7 @@ namespace Stories.Application.Stories.Commands.AddCharacter
 
         public string Spotlight { get; }
 
-        public class AddCharacterCommandHandler
+        public class AddCharacterCommandHandler : IRequestHandler<AddCharacterCommand, AddCharacterResponseModel>
         {
             private readonly IStoryDomainRepository _storyRepository;
 
@@ -23,9 +25,11 @@ namespace Stories.Application.Stories.Commands.AddCharacter
                 this._storyRepository = storyRepository;
             }
 
-            public async Task<AddCharacterResponseModel> Handle(AddCharacterCommand request)
+            public async Task<AddCharacterResponseModel> Handle(
+                AddCharacterCommand request,
+                CancellationToken cancellationToken)
             {
-                var story = await this._storyRepository.GetAsync(request.Id);
+                var story = await this._storyRepository.GetAsync(request.Id, cancellationToken);
 
                 if (story == null)
                 {
@@ -34,7 +38,7 @@ namespace Stories.Application.Stories.Commands.AddCharacter
 
                 story.AddCharacter(request.FirstName, request.LastName, request.Spotlight);
 
-                await this._storyRepository.SaveChangesAsync();
+                await this._storyRepository.SaveChangesAsync(cancellationToken);
 
                 return new AddCharacterResponseModel();
             }

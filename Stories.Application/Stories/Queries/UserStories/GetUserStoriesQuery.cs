@@ -1,10 +1,12 @@
-﻿namespace Stories.Application.Stories.Queries.UserStories
+﻿using MediatR;
+
+namespace Stories.Application.Stories.Queries.UserStories
 {
-    public class GetUserStoriesQuery
+    public class GetUserStoriesQuery : IRequest<IEnumerable<GetUserStoriesResponseModel>>
     {
         public Guid UserId { get; set; }
 
-        public class GetUserStoriesQueryHandler
+        public class GetUserStoriesQueryHandler : IRequestHandler<GetUserStoriesQuery, IEnumerable<GetUserStoriesResponseModel>>
         {
             private readonly IStoryQueryRepository _storyQueryRepository;
 
@@ -13,8 +15,10 @@
                 this._storyQueryRepository = storyQueryRepository;
             }
 
-            public async Task<IEnumerable<GetUserStoriesResponseModel>> Handle(GetUserStoriesQuery request)
-                => await this._storyQueryRepository.GetUserStoriesAsync<GetUserStoriesResponseModel>(request.UserId);
+            public async Task<IEnumerable<GetUserStoriesResponseModel>> Handle(
+                GetUserStoriesQuery request,
+                CancellationToken cancellationToken)
+                => await this._storyQueryRepository.GetUserStoriesAsync<GetUserStoriesResponseModel>(request.UserId, cancellationToken);
         }
     }
 }
