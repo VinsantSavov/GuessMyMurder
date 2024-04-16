@@ -10,11 +10,11 @@ namespace Stories.Application.Stories.Commands.AddCharacter
 {
     public class AddCharacterCommand : EntityCommand<Guid>, IRequest<AddCharacterResponseModel>
     {
-        public string FirstName {  get; }
+        public string? FirstName {  get; }
 
-        public string LastName { get; }
+        public string? LastName { get; }
 
-        public string Spotlight { get; }
+        public string? Spotlight { get; }
 
         public class AddCharacterCommandHandler : IRequestHandler<AddCharacterCommand, AddCharacterResponseModel>
         {
