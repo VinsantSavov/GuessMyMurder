@@ -1,4 +1,5 @@
 ﻿using Common.Domain.Constants;
+using Common.Domain.Events.Stories;
 using Common.Domain.Interfaces;
 using Common.Domain.Models;
 using Common.Domain.Models.Entities;
@@ -42,6 +43,8 @@ namespace Stories.Domain.Models.Stories
 
             this.Title = title;
 
+            this.RaiseEvent(new StoryTitleUpdatedEvent(this.Id, this.Title));
+
             return this;
         }
 
@@ -50,6 +53,8 @@ namespace Stories.Domain.Models.Stories
             this.ValidatePlot(plot);
 
             this.Plot = plot;
+
+            this.RaiseEvent(new StoryPlotUpdatedEvent(this.Id, this.Plot));
 
             return this;
         }
@@ -85,6 +90,13 @@ namespace Stories.Domain.Models.Stories
             character.UpdateFirstName(firstName)
                      .UpdateLastName(lastName)
                      .UpdateSpotlight(spotlight);
+
+            this.RaiseEvent(new StoryCharacterUpdatedEvent(
+                this.Id, 
+                character.Id,
+                character.FirstName,
+                character.LastName,
+                character.Spotlight));
 
             return this;
         }
