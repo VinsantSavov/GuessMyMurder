@@ -1,6 +1,6 @@
 ﻿namespace Common.Domain.Events.Stories
 {
-    public class StoryPlotUpdatedEvent : BaseDomainEvent
+    public class StoryPlotUpdatedEvent : IDomainEvent
     {
         public StoryPlotUpdatedEvent(
             Guid id,

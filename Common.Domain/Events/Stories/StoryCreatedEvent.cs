@@ -1,6 +1,6 @@
 ﻿namespace Common.Domain.Events.Stories
 {
-    public class StoryCreatedEvent : BaseDomainEvent
+    public class StoryCreatedEvent : IDomainEvent
     {
         public StoryCreatedEvent(
             Guid id,

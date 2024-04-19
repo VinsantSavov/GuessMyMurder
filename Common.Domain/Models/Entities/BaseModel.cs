@@ -6,12 +6,7 @@ namespace Common.Domain.Models.Entities
 {
     public abstract class BaseModel<TKey> : IDatabaseModel, IAuditInfo
     {
-        private ICollection<IDomainEvent> _events;
-
-        protected BaseModel()
-        {
-            this._events = new List<IDomainEvent>();
-        }
+        private ICollection<IDomainEvent> _events = new List<IDomainEvent>();
 
         [Key]
         public TKey Id { get; private set; }
