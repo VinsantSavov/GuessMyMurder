@@ -10,12 +10,16 @@ namespace Common.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Message> builder)
         {
             builder
-                .HasKey(e => e.Id);
+                .HasKey(m => m.Id);
 
             builder
                 .Property<string>("serializedData")
                 .IsRequired()
                 .HasField("serializedData");
+
+            builder
+                .Property(m => m.Timestamp)
+                .IsRequired();
 
             builder
                 .Property(m => m.Type)

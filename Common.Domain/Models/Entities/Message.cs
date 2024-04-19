@@ -9,6 +9,7 @@ namespace Common.Domain.Models.Entities
         public Message(object data)
         {
             this.Data = data;
+            this.Timestamp = DateTime.UtcNow;
         }
 
         public int Id { get; }
