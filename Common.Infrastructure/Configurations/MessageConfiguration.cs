@@ -13,6 +13,11 @@ namespace Common.Infrastructure.Configurations
                 .HasKey(m => m.Id);
 
             builder
+                .Property(m => m.Id)
+                .IsRequired()
+                .ValueGeneratedNever();
+
+            builder
                 .Property<string>("serializedData")
                 .IsRequired()
                 .HasField("serializedData");
